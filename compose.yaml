@@ -1,0 +1,30 @@
+# Works with `docker compose` and `podman compose`.
+#   Web + API:  docker compose up --build        -> http://localhost:8000
+#   Android:    docker compose run --rm --build android   -> ./out/app-release.apk
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.web
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+
+  android:
+    profiles: ["android"]          # only runs when asked for
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.android
+      args:
+        # Where the phone reaches the backend. 10.0.2.2 = host from the Android emulator.
+        # For a real device use your machine's LAN IP, e.g. http://192.168.1.20:8080
+        API_URL: ${API_URL:-http://10.0.2.2:8080}
+        TARGET: ${TARGET:-android-arm64}   # android-x64 for an x86 emulator
+    volumes:
+      - ./out:/out:Z               # :Z = SELinux relabel for podman, harmless on docker

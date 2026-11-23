@@ -1,0 +1,8 @@
+target/
+.dart_tool/
+build/
+.fvm/
+android/
+web/
+out/*
+!out/.gitkeep
