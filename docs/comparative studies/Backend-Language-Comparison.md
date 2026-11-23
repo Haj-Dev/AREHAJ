@@ -12,7 +12,7 @@ This report compares **Rust**, **Go**, **Python**, **Java**, and **Node.js** as 
 
 | Language | Performance | Development Speed | Memory Management          | Concurrent Programming | Ecosystem Size |
 | -------- | ----------- | ----------------- | -------------------------- | ---------------------- | -------------- |
-| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Manual (compiler enforced) | Excellent              | Large          |
+| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Automatic | Excellent              | Large          |
 | Go       | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐        | Automatic GC               | Built-in primitives    | Medium         |
 | Python   | ⭐⭐⭐      | ⭐⭐⭐⭐⭐        | Automatic GC               | GIL limitations        | Very Large     |
 | Java     | ⭐⭐⭐      | ⭐⭐⭐            | Automatic JVM GC           | Forked VM + Threads    | Very Large     |
