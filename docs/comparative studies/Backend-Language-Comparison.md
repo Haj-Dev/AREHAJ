@@ -1,5 +1,11 @@
 # Comparative Study: Backend Languages for Web Servers
 
+## Project Technology Decision
+
+**Selected stack**: Rust backend, ReactJS browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
+
+**Rust is the selected backend language for AREHAJ.** Both clients communicate with the Rust API; only the backend accesses PostgreSQL. The comparisons below remain technical background, not an open technology selection or evidence that the stack is already implemented. Backend framework, database driver, and deployment details are not selected by this document.
+
 ## Executive Summary
 
 This report compares **Rust**, **Go**, **Python**, **Java**, and **Node.js** as backend languages for web servers. I've selected these five based on industry adoption, distinct characteristics, and their positioning in the systems programming vs application development space.
@@ -229,6 +235,8 @@ async function getUserHandler(req, res) {
 
 ## Recommendation Matrix
 
+The following scenarios describe general trade-offs for other contexts. **AREHAJ uses Rust for the backend**; these alternatives do not supersede that decision.
+
 ### Choose Rust if:
 
 - **Budget is constrained** and performance matters
@@ -300,13 +308,9 @@ async function getUserHandler(req, res) {
 
 ### Final Recommendation
 
-For a **new greenfield project**:
+**Project decision: Rust is the backend language.** The Rust API serves the ReactJS browser frontend and the Flutter Android application, and uses PostgreSQL for authoritative persistence.
 
-- Start with **Go** if you need production-ready web server quickly
-- Choose **Rust** if you know it's a performance-critical path (expect 3-6 months ramp-up)
-- Use **Python** only for data-driven workloads where raw throughput isn't critical
-- Consider **Java** for enterprise applications requiring strict security/compliance
-- Consider **Node.js** when frontend/backend unification is valuable
+Implementation work should cover API contracts, authentication and authorization, database migrations and connection pooling, testing, and observability. Specific Rust libraries and deployment infrastructure remain separate decisions. General comparisons with Go, Python, Java, and Node.js are retained as background, not alternative project recommendations.
 
 ---
 
