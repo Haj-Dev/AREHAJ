@@ -34,12 +34,12 @@ These capabilities do not establish that Flutter is universally faster than Kotl
 
 ## Alternatives Considered
 
-| Alternative | Relevant trade-off |
-| --- | --- |
-| Kotlin / Jetpack Compose | Direct Android toolkit integration and a strong Android-only baseline; not the selected UI stack |
-| React Native | React knowledge reuse and native UI components; native dependency compatibility still needs maintenance |
-| Rust / Tauri 2 | Rust and web UI reuse, but WebView rendering and mobile plugin trade-offs |
-| Java / Android Views | Established Android integration, particularly for an existing Java app; more boilerplate for many new workflows |
+| Alternative              | Relevant trade-off                                                                                              |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| Kotlin / Jetpack Compose | Direct Android toolkit integration and a strong Android-only baseline; not the selected UI stack                |
+| React Native             | React knowledge reuse and native UI components; native dependency compatibility still needs maintenance         |
+| Rust / Tauri 2           | Rust and web UI reuse, but WebView rendering and mobile plugin trade-offs                                       |
+| Java / Android Views     | Established Android integration, particularly for an existing Java app; more boilerplate for many new workflows |
 
 ReactJS for the website does not imply React Native for Android. Rust for the backend does not imply a Rust mobile UI or Rust code embedded in the app.
 

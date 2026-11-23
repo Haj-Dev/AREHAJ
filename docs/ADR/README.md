@@ -4,12 +4,12 @@ These records document AREHAJ's accepted technology selections. **Accepted** rec
 
 ## Decision Index
 
-| ADR | Decision | Status | Date |
-| --- | --- | --- | --- |
-| [0001](0001-use-rust-for-backend.md) | Use Rust for the backend | Accepted | 2026-11-23 |
-| [0002](0002-use-reactjs-for-web-frontend.md) | Use ReactJS for the browser frontend | Accepted | 2026-11-23 |
-| [0003](0003-use-flutter-for-android.md) | Use Flutter for the Android application | Accepted | 2026-11-23 |
-| [0004](0004-use-postgresql-for-database.md) | Use PostgreSQL as the authoritative database | Accepted | 2026-11-23 |
+| ADR                                          | Decision                                     | Status   | Date       |
+| -------------------------------------------- | -------------------------------------------- | -------- | ---------- |
+| [0001](0001-use-rust-for-backend.md)         | Use Rust for the backend                     | Accepted | 2026-11-23 |
+| [0002](0002-use-reactjs-for-web-frontend.md) | Use ReactJS for the browser frontend         | Accepted | 2026-11-23 |
+| [0003](0003-use-flutter-for-android.md)      | Use Flutter for the Android application      | Accepted | 2026-11-23 |
+| [0004](0004-use-postgresql-for-database.md)  | Use PostgreSQL as the authoritative database | Accepted | 2026-11-23 |
 
 ## Selected Architecture
 

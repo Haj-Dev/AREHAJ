@@ -34,12 +34,12 @@ These are architectural benefits, not evidence that Rust will meet a particular 
 
 ## Alternatives Considered
 
-| Alternative | Relevant trade-off |
-| --- | --- |
-| Go | Simpler onboarding and established service tooling; not the selected language |
-| Python | Rapid development and broad libraries; different runtime and resource trade-offs |
-| Java | Mature frameworks and operational ecosystem; JVM and framework trade-offs |
-| Node.js | JavaScript/TypeScript ecosystem alignment with the web client; a shared language does not eliminate the need for a server trust boundary |
+| Alternative | Relevant trade-off                                                                                                                       |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Go          | Simpler onboarding and established service tooling; not the selected language                                                            |
+| Python      | Rapid development and broad libraries; different runtime and resource trade-offs                                                         |
+| Java        | Mature frameworks and operational ecosystem; JVM and framework trade-offs                                                                |
+| Node.js     | JavaScript/TypeScript ecosystem alignment with the web client; a shared language does not eliminate the need for a server trust boundary |
 
 These remain valid options in other contexts. They are not planned parallel backend implementations.
 

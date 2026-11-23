@@ -29,13 +29,13 @@ This decision does not assume existing React expertise, measured hiring advantag
 
 ## Alternatives Considered
 
-| Alternative | Relevant trade-off |
-| --- | --- |
-| Vue / Nuxt | Approachable component model and integrated rendering options; not selected |
-| Angular | Integrated architecture and conventions; additional framework concepts |
-| Svelte / SvelteKit | Concise component authoring; integration availability needs assessment |
-| Flutter Web | Potential Flutter code reuse; different rendering and browser-behavior trade-offs |
-| Rust / Leptos | Rust-centric frontend logic; specialized tooling and integration costs |
+| Alternative        | Relevant trade-off                                                                |
+| ------------------ | --------------------------------------------------------------------------------- |
+| Vue / Nuxt         | Approachable component model and integrated rendering options; not selected       |
+| Angular            | Integrated architecture and conventions; additional framework concepts            |
+| Svelte / SvelteKit | Concise component authoring; integration availability needs assessment            |
+| Flutter Web        | Potential Flutter code reuse; different rendering and browser-behavior trade-offs |
+| Rust / Leptos      | Rust-centric frontend logic; specialized tooling and integration costs            |
 
 Next.js and Vite are potential React tooling choices, not rejected competing UI technologies or adopted dependencies.
 

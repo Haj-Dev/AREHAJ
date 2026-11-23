@@ -33,11 +33,11 @@ These capabilities make PostgreSQL a suitable architectural baseline, but actual
 
 ## Alternatives Considered
 
-| Alternative | Relevant trade-off |
-| --- | --- |
-| MySQL / InnoDB | Credible transactional relational alternative; existing expertise or hosting could favor it in another context |
-| SQLite | Strong embedded/local-storage option and viable for suitable small backend topologies; single-writer behavior and shared deployment constraints need evaluation |
-| MongoDB | Document-oriented modeling can suit aggregate-based access; cross-document relationships and invariants have different trade-offs |
+| Alternative    | Relevant trade-off                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MySQL / InnoDB | Credible transactional relational alternative; existing expertise or hosting could favor it in another context                                                  |
+| SQLite         | Strong embedded/local-storage option and viable for suitable small backend topologies; single-writer behavior and shared deployment constraints need evaluation |
+| MongoDB        | Document-oriented modeling can suit aggregate-based access; cross-document relationships and invariants have different trade-offs                               |
 
 SQLite remains a possible separate Android-local storage decision, not an adopted component or a replacement for PostgreSQL on the server.
 
