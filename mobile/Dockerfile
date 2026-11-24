@@ -1,4 +1,4 @@
-FROM ghcr.io/cirruslabs/flutter:stable
+FROM plugfox/flutter:3.47.9-android
 # android-arm64 = real phones. Use android-x64 for an x86 emulator.
 ARG TARGET=android-arm64
 WORKDIR /app

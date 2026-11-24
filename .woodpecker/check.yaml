@@ -1,9 +1,19 @@
+skip_clone: true
+
 when:
   - event: pull_request
     branch: dev
 
+depends_on:
+  - name: backend
+    optional: true
+  - name: web
+    optional: true
+  - name: mobile
+    optional: true
+
 steps:
-  - name: pass
-    image: alpine
+  - name: check
+    image: alpine:latest
     commands:
-      - echo "Woodpecker CI passed"
+      - echo "All applicable CI workflows passed!"
