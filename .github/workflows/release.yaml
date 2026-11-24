@@ -17,9 +17,22 @@ jobs:
       repo: ${{ steps.meta.outputs.repo }}
     steps:
       - id: meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "tag=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
-          echo "repo=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+          DATE=$(date -u +%Y%m%d)
+          REPO="${GITHUB_REPOSITORY,,}"
+
+          TAG="$DATE"
+          SUFFIX=0
+
+          while gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; do
+            SUFFIX=$((SUFFIX + 1))
+            TAG="$DATE-$SUFFIX"
+          done
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "repo=$REPO" >> "$GITHUB_OUTPUT"
 
   # Build and publish the backend image.
   publish-backend:
