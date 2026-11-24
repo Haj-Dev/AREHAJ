@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+# Only inspect staged files (added, copied, modified, renamed).
+STAGED_FILES="$(git diff --cached --name-only --diff-filter=ACMR)"
+
+if [[ -z "$STAGED_FILES" ]]; then
+    exit 0
+fi
+
+BACKEND=false
+WEB=false
+MOBILE=false
+
+while IFS= read -r file; do
+    case "$file" in
+    backend/*)
+        BACKEND=true
+        ;;
+    web/*)
+        WEB=true
+        ;;
+    mobile/*)
+        MOBILE=true
+        ;;
+    esac
+done <<<"$STAGED_FILES"
+
+echo "Running pre-commit checks..."
+
+if [[ "$BACKEND" == true ]]; then
+    bash .githooks/scripts/back.sh
+fi
+
+if [[ "$WEB" == true ]]; then
+    bash .githooks/scripts/web.sh
+fi
+
+if [[ "$MOBILE" == true ]]; then
+    bash .githooks/scripts/mobile.sh
+fi
+
+# Include formatter/linter modifications in the commit.
+git add -u
+
+echo "All pre-commit checks passed."
