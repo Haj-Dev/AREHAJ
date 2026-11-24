@@ -76,11 +76,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'Minimal app',
-    debugShowCheckedModeBanner: false,
-    theme: theme,
-    home: const HomePage(),
-  );
+        title: 'Minimal app',
+        debugShowCheckedModeBanner: false,
+        theme: theme,
+        home: const HomePage(),
+      );
 }
 
 class HomePage extends StatefulWidget {

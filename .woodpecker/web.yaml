@@ -1,0 +1,42 @@
+when:
+  - event: pull_request
+    branch: dev
+    path:
+      include:
+        - web/**
+        - .woodpecker/web.yaml
+
+steps:
+  - name: install
+    image: node:26-alpine
+    commands:
+      - cd web
+      - npm ci
+
+  - name: lint
+    image: node:26-alpine
+    commands:
+      - cd web
+      - npm ci
+      - npm run lint
+
+  - name: typecheck
+    image: node:26-alpine
+    commands:
+      - cd web
+      - npm ci
+      - npm run typecheck
+
+  - name: test
+    image: node:26-alpine
+    commands:
+      - cd web
+      - npm ci
+      - npm test -- --run
+
+  - name: build
+    image: node:26-alpine
+    commands:
+      - cd web
+      - npm ci
+      - npm run build

@@ -1,0 +1,49 @@
+when:
+  - event: pull_request
+    branch: dev
+    path:
+      include:
+        - backend/**
+        - .woodpecker/backend.yaml
+
+variables:
+  - &sccache_env
+    SCCACHE_BUCKET: ci-cache
+    SCCACHE_ENDPOINT: http://sccache.cache.svc.cluster.local:9000
+    SCCACHE_REGION: us-east-1
+    SCCACHE_S3_USE_SSL: "false"
+    AWS_ACCESS_KEY_ID:
+      from_secret: sccache_access_key
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: sccache_secret_key
+    RUSTC_WRAPPER: sccache
+
+steps:
+  - name: format
+    image: stden:rust-ci:latest
+    environment: *sccache_env
+    commands:
+      - cd backend
+      - cargo fmt --all -- --check
+
+  - name: clippy
+    image: stden:rust-ci:latest
+    environment: *sccache_env
+    commands:
+      - cd backend
+      - rustup component add clippy
+      - cargo clippy -j2 --workspace --all-targets -- -D warnings
+
+  - name: tests
+    image: stden:rust-ci:latest
+    environment: *sccache_env
+    commands:
+      - cd backend
+      - cargo test -j2 --workspace
+
+  - name: check
+    image: stden:rust-ci:latest
+    environment: *sccache_env
+    commands:
+      - cd backend
+      - cargo check -j2 --workspace --release
