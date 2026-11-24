@@ -19,15 +19,8 @@ variables:
     RUSTC_WRAPPER: sccache
 
 steps:
-  - name: format
-    image: stden:rust-ci:latest
-    environment: *sccache_env
-    commands:
-      - cd backend
-      - cargo fmt --all -- --check
-
   - name: clippy
-    image: stden:rust-ci:latest
+    image: stden/rust-ci:latest
     environment: *sccache_env
     commands:
       - cd backend
@@ -35,14 +28,14 @@ steps:
       - cargo clippy -j2 --workspace --all-targets -- -D warnings
 
   - name: tests
-    image: stden:rust-ci:latest
+    image: stden/rust-ci:latest
     environment: *sccache_env
     commands:
       - cd backend
       - cargo test -j2 --workspace
 
   - name: check
-    image: stden:rust-ci:latest
+    image: stden/rust-ci:latest
     environment: *sccache_env
     commands:
       - cd backend

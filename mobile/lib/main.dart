@@ -84,7 +84,10 @@ class App extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.client});
+
+  /// Injectable for tests; a real client is created when omitted.
+  final http.Client? client;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -92,6 +95,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _name = TextEditingController();
+  late final http.Client _client = widget.client ?? http.Client();
   String? _message;
   String? _error;
   bool _loading = false;
@@ -104,7 +108,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final uri = Uri.parse('$apiUrl/api/hello')
           .replace(queryParameters: {'name': _name.text});
-      final res = await http.get(uri).timeout(const Duration(seconds: 5));
+      final res = await _client.get(uri).timeout(const Duration(seconds: 5));
       if (res.statusCode != 200) throw 'HTTP ${res.statusCode}';
       _message = jsonDecode(res.body)['message'] as String;
     } catch (e) {
@@ -118,6 +122,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _name.dispose();
+    if (widget.client == null) _client.close();
     super.dispose();
   }
 
