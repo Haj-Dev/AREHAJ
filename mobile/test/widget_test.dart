@@ -10,13 +10,18 @@ void main() {
   testWidgets('shows the message returned by the backend', (tester) async {
     final client = MockClient((request) async {
       expect(request.url.path, '/api/hello');
+      expect(request.url.host, 'example.test');
       expect(request.url.queryParameters['name'], 'Ada');
       return http.Response(jsonEncode({'message': 'Hello, Ada!'}), 200);
     });
 
     await tester.pumpWidget(MaterialApp(home: HomePage(client: client)));
 
-    await tester.enterText(find.byType(TextField), 'Ada');
+    await tester.enterText(
+      find.byKey(const Key('apiUrlField')),
+      'http://example.test:9000',
+    );
+    await tester.enterText(find.byKey(const Key('nameField')), 'Ada');
     await tester.tap(find.text('Say hello'));
     await tester.pumpAndSettle();
 
@@ -32,5 +37,17 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Error:'), findsOneWidget);
+  });
+
+  testWidgets('rejects an invalid API URL', (tester) async {
+    final client = MockClient((request) async => http.Response('', 200));
+
+    await tester.pumpWidget(MaterialApp(home: HomePage(client: client)));
+
+    await tester.enterText(find.byKey(const Key('apiUrlField')), 'not a url');
+    await tester.tap(find.text('Say hello'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('valid API URL'), findsOneWidget);
   });
 }

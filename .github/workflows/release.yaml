@@ -67,29 +67,28 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
-          context: frontend
-          file: frontend/Dockerfile
+          context: web
+          file: web/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ needs.metadata.outputs.repo }}/web:${{ needs.metadata.outputs.tag }}
             ghcr.io/${{ needs.metadata.outputs.repo }}/web:${{ github.sha }}
 
-  # Build the Android APK inside the Flutter image.
+  # Build the Android APK with the same Dockerfile used by `docker compose`.
+  # The Dockerfile generates the Android project and patches the manifest.
   build-mobile:
     runs-on: ubuntu-latest
-    container:
-      image: plugfox/flutter:3.47.9-android
     steps:
       - uses: actions/checkout@v7
       - name: Build APK
-        working-directory: mobile
         run: |
-          flutter pub get --enforce-lockfile
-          flutter build apk --release
+          mkdir -p out
+          docker build --build-arg TARGET=android-arm64 -t arehaj-mobile mobile
+          docker run --rm -v "$PWD/out:/out" arehaj-mobile
       - uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          path: out/app-release.apk
 
   # Publish the APK as a GitHub Release asset.
   publish-release:

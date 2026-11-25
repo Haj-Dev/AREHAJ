@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-// Empty on web (nginx proxies /api to the backend); set via --dart-define on Android.
-const apiUrl = String.fromEnvironment('API_URL');
-
 // Catppuccin Latte
 const Color yellow = Color(0xFFDF8E1D);
 const Color base = Color(0xFFEFF1F5);
@@ -94,6 +91,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _apiUrl = TextEditingController(text: 'http://10.0.2.2:8080');
   final _name = TextEditingController();
   late final http.Client _client = widget.client ?? http.Client();
   String? _message;
@@ -101,14 +99,24 @@ class _HomePageState extends State<HomePage> {
   bool _loading = false;
 
   Future<void> _send() async {
+    final base = _apiUrl.text.trim().replaceFirst(RegExp(r'/+$'), '');
+    final uri = Uri.tryParse('$base/api/hello');
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      setState(() {
+        _message = null;
+        _error = 'Enter a valid API URL, e.g. http://10.0.2.2:8080';
+      });
+      return;
+    }
+
     setState(() {
       _loading = true;
       _error = null;
     });
     try {
-      final uri = Uri.parse('$apiUrl/api/hello')
-          .replace(queryParameters: {'name': _name.text});
-      final res = await _client.get(uri).timeout(const Duration(seconds: 5));
+      final res = await _client
+          .get(uri.replace(queryParameters: {'name': _name.text}))
+          .timeout(const Duration(seconds: 5));
       if (res.statusCode != 200) throw 'HTTP ${res.statusCode}';
       _message = jsonDecode(res.body)['message'] as String;
     } catch (e) {
@@ -121,6 +129,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _apiUrl.dispose();
     _name.dispose();
     if (widget.client == null) _client.close();
     super.dispose();
@@ -146,6 +155,18 @@ class _HomePageState extends State<HomePage> {
                     Text('Talk to the backend', style: t.titleLarge),
                     const SizedBox(height: 16),
                     TextField(
+                      key: const Key('apiUrlField'),
+                      controller: _apiUrl,
+                      keyboardType: TextInputType.url,
+                      decoration: const InputDecoration(
+                        labelText: 'API URL',
+                        hintText: 'http://10.0.2.2:8080',
+                      ),
+                      onSubmitted: (_) => _send(),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      key: const Key('nameField'),
                       controller: _name,
                       decoration: const InputDecoration(labelText: 'Your name'),
                       onSubmitted: (_) => _send(),

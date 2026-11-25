@@ -2,21 +2,21 @@
 
 ## Project Technology Decision
 
-**Selected stack**: Rust backend, ReactJS browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
+**Selected stack**: Rust backend, React with TypeScript browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
 
-**Rust is the selected backend language for AREHAJ.** Both clients communicate with the Rust API; only the backend accesses PostgreSQL. The comparisons below remain technical background, not an open technology selection or evidence that the stack is already implemented. Backend framework, database driver, and deployment details are not selected by this document.
+**Rust is the selected backend language for AREHAJ.** Both clients communicate with the Rust API; only the backend accesses PostgreSQL. The comparisons below remain technical background, not an open technology selection or evidence that the stack is already implemented. The current implementation uses axum and tokio; this study does not evaluate those libraries, and database driver and deployment details remain open.
 
 ## Executive Summary
 
 This report compares **Rust**, **Go**, **Python**, **Java**, and **Node.js** as backend languages for web servers. I've selected these five based on industry adoption, distinct characteristics, and their positioning in the systems programming vs application development space.
 
-| Language | Performance | Development Speed | Memory Management          | Concurrent Programming | Ecosystem Size |
-| -------- | ----------- | ----------------- | -------------------------- | ---------------------- | -------------- |
-| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Automatic | Excellent              | Large          |
-| Go       | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐        | Automatic GC               | Built-in primitives    | Medium         |
-| Python   | ⭐⭐⭐      | ⭐⭐⭐⭐⭐        | Automatic GC               | GIL limitations        | Very Large     |
-| Java     | ⭐⭐⭐      | ⭐⭐⭐            | Automatic JVM GC           | Forked VM + Threads    | Very Large     |
-| Node.js  | ⭐⭐⭐      | ⭐⭐⭐⭐          | V8 Engine GC               | Event loop, workers    | Very Large     |
+| Language | Performance | Development Speed | Memory Management | Concurrent Programming   | Ecosystem Size |
+| -------- | ----------- | ----------------- | ----------------- | ------------------------- | -------------- |
+| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Automatic         | Excellent                | Large          |
+| Go       | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐        | Automatic GC      | Built-in primitives      | Medium         |
+| Python   | ⭐⭐⭐      | ⭐⭐⭐⭐⭐        | Automatic GC      | GIL limitations          | Very Large     |
+| Java     | ⭐⭐⭐      | ⭐⭐⭐            | Automatic JVM GC  | Threads / virtual threads | Very Large     |
+| Node.js  | ⭐⭐⭐      | ⭐⭐⭐⭐          | V8 Engine GC      | Event loop, workers      | Very Large     |
 
 ---
 
@@ -45,12 +45,13 @@ This report compares **Rust**, **Go**, **Python**, **Java**, and **Node.js** as 
 
 ```rust
 // Example: Tokio async runtime
-use tokio::{time::Duration, fs};
+use tokio::fs;
 
 #[tokio::main]
-async fn main() {
-    let result = fs::write("/etc", b"hello").await;
-    println!("Written {} bytes", result.len());
+async fn main() -> std::io::Result<()> {
+    fs::write("hello.txt", b"hello").await?;
+    println!("Wrote hello.txt");
+    Ok(())
 }
 ```
 
@@ -77,7 +78,7 @@ async fn main() {
 - ❌ **JVM overhead**: Higher memory footprint and startup time (100-500ms)
 - ❌ **GC pauses**: Stop-the-world pauses can affect latency-sensitive applications
 - ❌ **Verbose syntax**: More boilerplate than Go/Python for similar functionality
-- ❌ **CPU-bound limitations**: Like Python, suffers from GIL when using native extensions
+- ❌ **CPU-bound limitations**: Thread-based concurrency requires careful synchronization; native extensions can complicate memory management
 
 ### Production Stats (Java for Web)
 
@@ -138,7 +139,7 @@ async def handler(request):
 - **Goroutines**: Lightweight threads created from a single native function, millions per second
 - **Channels**: Thread-safe message-passing for explicit concurrent programming
 - **Single binary**: Compiles to standalone executable with no dependencies
-- **Zero-copy serialization**: Built-in protobuf/cbor for efficient data transfer
+- **Serialization**: Standard library JSON and encoding support; protobuf/cbor are available through third-party packages
 
 ### Key Advantages
 
@@ -150,7 +151,7 @@ async def handler(request):
 
 ### Key Disadvantages
 
-- ❌ **No reflection**: Runtime introspection requires workarounds
+- ❌ **Limited reflection**: Runtime introspection is possible but less ergonomic than in dynamic languages
 - ❌ **String handling**: Manual string concatenation with `strings.Builder`
 - ❌ **Limited frameworks**: Fewer web frameworks than Java/Python ecosystems
 - ❌ **Debugging overhead**: Less sophisticated than Java's JVM tools
@@ -161,7 +162,7 @@ async def handler(request):
 // Example: Fiber fast web server
 package main
 
-import "fiber""
+import "github.com/gofiber/fiber/v2"
 
 func main() {
     app := fiber.New()
@@ -195,7 +196,7 @@ func main() {
 ### Key Disadvantages
 
 - ❌ **No true concurrency**: Event loop can block with synchronous operations
-- ❌ **Memory leaks**: Reference cycles without GC awareness (though V8 handles well)
+- ❌ **Memory pressure**: Long-lived references and event-loop blocking can retain memory; profile heap usage
 - ❌ **Process restart on crash**: No built-in fault tolerance like Go/Java
 - ❌ **Security risks**: npm package ecosystem requires careful auditing
 
@@ -308,7 +309,7 @@ The following scenarios describe general trade-offs for other contexts. **AREHAJ
 
 ### Final Recommendation
 
-**Project decision: Rust is the backend language.** The Rust API serves the ReactJS browser frontend and the Flutter Android application, and uses PostgreSQL for authoritative persistence.
+**Project decision: Rust is the backend language.** The Rust API serves the React with TypeScript browser frontend and the Flutter Android application, and uses PostgreSQL for authoritative persistence.
 
 Implementation work should cover API contracts, authentication and authorization, database migrations and connection pooling, testing, and observability. Specific Rust libraries and deployment infrastructure remain separate decisions. General comparisons with Go, Python, Java, and Node.js are retained as background, not alternative project recommendations.
 
@@ -316,12 +317,12 @@ Implementation work should cover API contracts, authentication and authorization
 
 ## Appendix: Quick Comparison Table
 
-| Feature                  | Rust                 | Go               | Python           | Java                | Node.js             |
-| ------------------------ | -------------------- | ---------------- | ---------------- | ------------------- | ------------------- |
-| Compiled to              | Native binary        | Static binary    | Bytecode (.pyc)  | JVM bytecode        | V8 JavaScript       |
-| Memory model             | Manual (safe)        | Automatic GC     | Automatic GC     | JVM GC              | V8 Engine GC        |
-| Concurrency model        | Async/await, threads | Goroutines       | Threads/GIL      | Forked VM + Threads | Event loop, workers |
-| Package manager          | Cargo                | Go modules       | pip / Poetry     | Maven / Gradle      | npm                 |
-| Testing speed            | Very fast            | Fast             | Medium           | Fast (JMeter)       | Medium              |
-| Documentation generation | cargo doc            | go doc           | Sphinx / autoapi | javadoc             | JSDoc               |
-| Deployment complexity    | Simple               | Extremely simple | Moderate         | Moderate            | Simple              |
+| Feature                  | Rust                 | Go               | Python           | Java                      | Node.js             |
+| ------------------------ | -------------------- | ---------------- | ---------------- | ------------------------- | ------------------- |
+| Compiled to              | Native binary        | Static binary    | Bytecode (.pyc)  | JVM bytecode              | V8 JavaScript       |
+| Memory model             | Manual (safe)        | Automatic GC     | Automatic GC     | JVM GC                    | V8 Engine GC        |
+| Concurrency model        | Async/await, threads | Goroutines       | Threads/GIL      | Threads / virtual threads | Event loop, workers |
+| Package manager          | Cargo                | Go modules       | pip / Poetry     | Maven / Gradle            | npm                 |
+| Testing speed            | Very fast            | Fast             | Medium           | Fast (JUnit)              | Medium              |
+| Documentation generation | cargo doc            | go doc           | Sphinx / autoapi | javadoc                   | JSDoc               |
+| Deployment complexity    | Simple               | Extremely simple | Moderate         | Moderate                  | Simple              |

@@ -10,7 +10,7 @@ Here, an **Android app** means an installable application distributed as an APK 
 
 ## Project Technology Decision
 
-**Selected stack**: Rust backend, ReactJS browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
+**Selected stack**: Rust backend, React with TypeScript browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
 
 **Flutter is the selected technology for the AREHAJ Android application.** It produces an installable Android app, not a website packaged in a WebView. Flutter renders its own widgets rather than Android toolkit controls. The app communicates with the Rust API and does not connect directly to PostgreSQL. The comparisons below remain background, not an open technology selection or evidence of implementation.
 
@@ -395,7 +395,7 @@ These are proposed prototype exercises, not claimed customer case studies or mea
 
 **Project decision: Flutter (Dart).** Build and distribute the Android application using Flutter, with plugins or Kotlin/Java integration where required for device features.
 
-The app consumes the same Rust backend API as the ReactJS web frontend. PostgreSQL remains behind that API; database credentials must not be embedded in the application. Local storage and offline synchronization are separate requirements, not implied by this selection.
+The app consumes the same Rust backend API as the React with TypeScript web frontend. PostgreSQL remains behind that API; database credentials must not be embedded in the application. Local storage and offline synchronization are separate requirements, not implied by this selection.
 
 Flutter's own rendering model is accepted for this stack decision. Validate TalkBack, text scaling, navigation, lifecycle behavior, required plugins, and release-build performance on supported devices. Kotlin/Compose, React Native, Tauri, and Java remain comparison alternatives, not planned replacement stacks.
 
@@ -432,7 +432,7 @@ graph TD
 
 This study compares **Kotlin/Jetpack Compose, Flutter, React Native, Rust/Tauri 2, and Java/Android Views specifically for Android application development**. Desktop and web deployment coverage do not contribute to the recommendation.
 
-**AREHAJ uses Flutter for its Android application**, ReactJS for the browser frontend, Rust for the backend, and PostgreSQL for authoritative storage. The comparison informs implementation risks; it does not leave the Android technology choice open. Validate the Flutter application with real device integrations and release-build measurements rather than assuming universal performance or security guarantees.
+**AREHAJ uses Flutter for its Android application**, React with TypeScript for the browser frontend, Rust for the backend, and PostgreSQL for authoritative storage. The comparison informs implementation risks; it does not leave the Android technology choice open. Validate the Flutter application with real device integrations and release-build measurements rather than assuming universal performance or security guarantees.
 
 ---
 

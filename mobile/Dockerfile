@@ -16,10 +16,9 @@ RUN printf '\norg.gradle.parallel=true\norg.gradle.caching=true\norg.gradle.work
 RUN flutter build apk --release --target-platform ${TARGET}
 
 # Everything below reruns on code changes and is the fast part.
-ARG API_URL=http://10.0.2.2:8080
 COPY pubspec.yaml ./
 COPY lib ./lib
 RUN flutter pub get && \
-    flutter build apk --release --target-platform ${TARGET} --dart-define=API_URL=${API_URL}
+    flutter build apk --release --target-platform ${TARGET}
 
 CMD ["cp", "/app/build/app/outputs/flutter-apk/app-release.apk", "/out/"]
