@@ -10,13 +10,13 @@
 
 This report compares **Rust**, **Go**, **Python**, **Java**, and **Node.js** as backend languages for web servers. I've selected these five based on industry adoption, distinct characteristics, and their positioning in the systems programming vs application development space.
 
-| Language | Performance | Development Speed | Memory Management          | Concurrent Programming | Ecosystem Size |
-| -------- | ----------- | ----------------- | -------------------------- | ---------------------- | -------------- |
-| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Automatic | Excellent              | Large          |
-| Go       | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐        | Automatic GC               | Built-in primitives    | Medium         |
-| Python   | ⭐⭐⭐      | ⭐⭐⭐⭐⭐        | Automatic GC               | GIL limitations        | Very Large     |
-| Java     | ⭐⭐⭐      | ⭐⭐⭐            | Automatic JVM GC           | Forked VM + Threads    | Very Large     |
-| Node.js  | ⭐⭐⭐      | ⭐⭐⭐⭐          | V8 Engine GC               | Event loop, workers    | Very Large     |
+| Language | Performance | Development Speed | Memory Management | Concurrent Programming | Ecosystem Size |
+| -------- | ----------- | ----------------- | ----------------- | ---------------------- | -------------- |
+| Rust     | ⭐⭐⭐⭐⭐  | ⭐⭐⭐            | Automatic         | Excellent              | Large          |
+| Go       | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐        | Automatic GC      | Built-in primitives    | Medium         |
+| Python   | ⭐⭐⭐      | ⭐⭐⭐⭐⭐        | Automatic GC      | GIL limitations        | Very Large     |
+| Java     | ⭐⭐⭐      | ⭐⭐⭐            | Automatic JVM GC  | Forked VM + Threads    | Very Large     |
+| Node.js  | ⭐⭐⭐      | ⭐⭐⭐⭐          | V8 Engine GC      | Event loop, workers    | Very Large     |
 
 ---
 
