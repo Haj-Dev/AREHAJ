@@ -4,25 +4,25 @@ These records document AREHAJ's accepted technology selections. **Accepted** rec
 
 ## Decision Index
 
-| ADR                                          | Decision                                     | Status   | Date       |
-| -------------------------------------------- | -------------------------------------------- | -------- | ---------- |
-| [0001](0001-use-rust-for-backend.md)         | Use Rust for the backend                     | Accepted | 2026-11-23 |
-| [0002](0002-use-reactjs-for-web-frontend.md) | Use ReactJS for the browser frontend         | Accepted | 2026-11-23 |
-| [0003](0003-use-flutter-for-android.md)      | Use Flutter for the Android application      | Accepted | 2026-11-23 |
-| [0004](0004-use-postgresql-for-database.md)  | Use PostgreSQL as the authoritative database | Accepted | 2026-11-23 |
+| ADR                                                        | Decision                                           | Status   | Date       |
+| ---------------------------------------------------------- | -------------------------------------------------- | -------- | ---------- |
+| [0001](0001-use-rust-for-backend.md)                       | Use Rust for the backend                           | Accepted | 2026-11-23 |
+| [0002](0002-use-react-with-typescript-for-web-frontend.md) | Use React with TypeScript for the browser frontend | Accepted | 2026-11-23 |
+| [0003](0003-use-flutter-for-android.md)                    | Use Flutter for the Android application            | Accepted | 2026-11-23 |
+| [0004](0004-use-postgresql-for-database.md)                | Use PostgreSQL as the authoritative database       | Accepted | 2026-11-23 |
 
 ## Selected Architecture
 
 ```mermaid
 graph TD
-    A[ReactJS browser frontend] --> C[Rust backend API]
+    A[React + TypeScript browser frontend] --> C[Rust backend API]
     B[Flutter Android application] --> C
     C --> D[PostgreSQL database]
 ```
 
 The browser and Android application are separate clients. Authorization, business rules, and authoritative database access remain on the backend. Flutter is an installable Android application, not a web frontend packaged into an APK.
 
-The records do not select a Rust web framework, React build/rendering framework, hosting provider, ORM, mobile-local database, or offline synchronization mechanism. Record significant follow-up choices separately rather than treating these technologies as implicit dependencies.
+The records do not select a Rust web framework, React rendering framework, hosting provider, ORM, mobile-local database, or offline synchronization mechanism. The current implementation uses axum, tokio, and Vite; record significant follow-up choices separately rather than treating these technologies as implicit dependencies.
 
 ## Record Conventions
 

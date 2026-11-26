@@ -6,7 +6,7 @@
 
 ## Context
 
-AREHAJ requires an Android application in addition to its ReactJS browser frontend. Both clients use the Rust backend API and share authoritative data stored in PostgreSQL.
+AREHAJ requires an Android application in addition to its React with TypeScript browser frontend. Both clients use the Rust backend API and share authoritative data stored in PostgreSQL.
 
 The Android comparison covers Kotlin/Jetpack Compose, Flutter, React Native, Rust/Tauri, and Java/Android Views. The project has explicitly selected Flutter.
 
@@ -19,7 +19,7 @@ Use **Flutter with Dart** to implement the Android application.
 - Produce signed Android release artifacts: APKs for appropriate installation/testing workflows and AABs for Google Play publishing where applicable.
 - Consume the Rust backend API rather than connecting directly to PostgreSQL.
 - Use reviewed Flutter plugins and platform channels to Kotlin/Java when required for Android features.
-- Keep the ReactJS browser frontend separate; this decision does not select Flutter Web.
+- Keep the React with TypeScript browser frontend separate; this decision does not select Flutter Web.
 
 Other native platforms are outside this ADR's scope.
 
@@ -28,7 +28,7 @@ Other native platforms are outside this ADR's scope.
 - Flutter provides a declarative widget framework with control over custom layouts and visual behavior.
 - Hot reload supports iterative UI development.
 - Release compilation and native integration support an installable Android product without a WebView-based application shell.
-- The same backend contracts can serve Flutter and ReactJS without requiring a shared UI framework.
+- The same backend contracts can serve Flutter and React with TypeScript without requiring a shared UI framework.
 
 These capabilities do not establish that Flutter is universally faster than Kotlin or that all required plugins are available. Device-level validation remains necessary.
 
@@ -41,7 +41,7 @@ These capabilities do not establish that Flutter is universally faster than Kotl
 | Rust / Tauri 2           | Rust and web UI reuse, but WebView rendering and mobile plugin trade-offs                                       |
 | Java / Android Views     | Established Android integration, particularly for an existing Java app; more boilerplate for many new workflows |
 
-ReactJS for the website does not imply React Native for Android. Rust for the backend does not imply a Rust mobile UI or Rust code embedded in the app.
+React for the website does not imply React Native for Android. Rust for the backend does not imply a Rust mobile UI or Rust code embedded in the app.
 
 ## Consequences
 
@@ -53,7 +53,7 @@ ReactJS for the website does not imply React Native for Android. Rust for the ba
 
 ### Costs and Risks
 
-- The project maintains Dart/Flutter and ReactJS UI implementations separately.
+- The project maintains Dart/Flutter and React with TypeScript UI implementations separately.
 - Android lifecycle, permissions, background behavior, signing, and publishing policies still apply.
 - Missing or incompatible plugins can require custom Kotlin/Java integration and additional maintenance.
 - Flutter rendering needs practical accessibility, text scaling, focus, and platform-behavior testing.
@@ -71,5 +71,5 @@ Keep signing credentials and server secrets out of the repository and applicatio
 
 - [Android frontend comparative study](../comparative%20studies/Frontend-Language-Comparison.md)
 - [ADR-0001: Rust backend](0001-use-rust-for-backend.md)
-- [ADR-0002: ReactJS web frontend](0002-use-reactjs-for-web-frontend.md)
+- [ADR-0002: React with TypeScript web frontend](0002-use-react-with-typescript-for-web-frontend.md)
 - [ADR-0004: PostgreSQL database](0004-use-postgresql-for-database.md)

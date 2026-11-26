@@ -8,9 +8,9 @@
 
 ## Project Technology Decision
 
-**Selected stack**: Rust backend, ReactJS browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
+**Selected stack**: Rust backend, React with TypeScript browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
 
-**PostgreSQL is the selected authoritative database for AREHAJ.** The Rust backend accesses it; ReactJS and Flutter clients communicate through the API, without embedded database credentials. Alternatives below are retained as comparison background, not an open database selection or evidence of implementation.
+**PostgreSQL is the selected authoritative database for AREHAJ.** The Rust backend accesses it; React with TypeScript and Flutter clients communicate through the API, without embedded database credentials. Alternatives below are retained as comparison background, not an open database selection or evidence of implementation.
 
 The application schema, expected traffic, hosting environment, availability objectives, and compliance requirements have not been established for this study. The database choice is settled, but its sizing, configuration, hosting, and recovery design still require validation.
 
@@ -316,7 +316,7 @@ The following matrix and scenarios describe general suitability. **AREHAJ uses P
 
 ```mermaid
 graph TD
-    A[ReactJS browser frontend] --> C[Authenticated Rust backend API]
+    A[React + TypeScript browser frontend] --> C[Authenticated Rust backend API]
     B[Flutter Android application] --> C
     B --> D[Optional local SQLite storage]
     D --> E[Explicit synchronization workflow]
@@ -346,7 +346,7 @@ These are proposed tests, not claims about an existing project schema or custome
 
 ### Selected Database
 
-**Project decision: PostgreSQL is the authoritative backend database.** The Rust backend manages database access, transactions, migrations, and connection pooling for both the ReactJS web frontend and the Flutter Android application.
+**Project decision: PostgreSQL is the authoritative backend database.** The Rust backend manages database access, transactions, migrations, and connection pooling for both the React with TypeScript web frontend and the Flutter Android application.
 
 Validate schema design, workload, hosting constraints, and operational budget within this selection. MySQL/InnoDB and MongoDB remain comparison alternatives, not planned project databases. SQLite is only a potential Android-local storage option if offline requirements justify it.
 
@@ -373,7 +373,7 @@ This is an implementation and validation sequence for the selected PostgreSQL da
 
 ## Conclusion
 
-**AREHAJ uses PostgreSQL as its authoritative database**, accessed by the Rust backend for the ReactJS web frontend and Flutter Android application. Relational integrity, transactions, expressive SQL, and selective document storage support this architecture. MySQL and MongoDB remain comparison background; SQLite is an optional local-storage consideration, not a replacement server database.
+**AREHAJ uses PostgreSQL as its authoritative database**, accessed by the Rust backend for the React with TypeScript web frontend and Flutter Android application. Relational integrity, transactions, expressive SQL, and selective document storage support this architecture. MySQL and MongoDB remain comparison background; SQLite is an optional local-storage consideration, not a replacement server database.
 
 Validate the selected PostgreSQL design with workload and recovery testing. The stack decision does not imply that performance, availability, or security objectives have already been demonstrated.
 

@@ -6,7 +6,7 @@
 
 ## Context
 
-AREHAJ will have a ReactJS browser frontend and a Flutter Android application. Both clients need access to shared business logic and authoritative data stored in PostgreSQL.
+AREHAJ will have a React with TypeScript browser frontend and a Flutter Android application. Both clients need access to shared business logic and authoritative data stored in PostgreSQL.
 
 The backend comparison considers Rust, Go, Python, Java, and Node.js. The project has explicitly selected Rust. This record captures that decision; it does not assert that implementation or performance validation has been completed.
 
@@ -28,7 +28,7 @@ Clients must not contain PostgreSQL credentials or connect directly to the autho
 - Rust provides native compilation and control over resource usage without requiring a garbage collector.
 - Ownership and borrowing prevent many memory-safety errors in safe Rust and help enforce thread-safety constraints.
 - Strong typing and explicit error handling support maintainable service boundaries.
-- A shared backend avoids duplicating authoritative business rules across ReactJS and Flutter.
+- A shared backend avoids duplicating authoritative business rules across React with TypeScript and Flutter.
 
 These are architectural benefits, not evidence that Rust will meet a particular latency, throughput, cost, or security target without testing.
 
@@ -60,13 +60,13 @@ These remain valid options in other contexts. They are not planned parallel back
 
 ## Follow-up Decisions and Validation
 
-Not selected by this ADR: web framework, async runtime, PostgreSQL driver or ORM, API style, authentication mechanism, hosting, or deployment topology.
+The current implementation uses axum and tokio. This ADR records only the language decision; the web framework, async runtime, PostgreSQL driver or ORM, API style, authentication mechanism, hosting, and deployment topology are not evaluated here and should be recorded separately.
 
 Select those tools separately. Add API contract tests, integration tests with PostgreSQL, observability, and representative load tests before claiming production objectives are met.
 
 ## References
 
 - [Backend comparative study](../comparative%20studies/Backend-Language-Comparison.md)
-- [ADR-0002: ReactJS web frontend](0002-use-reactjs-for-web-frontend.md)
+- [ADR-0002: React with TypeScript web frontend](0002-use-react-with-typescript-for-web-frontend.md)
 - [ADR-0003: Flutter Android application](0003-use-flutter-for-android.md)
 - [ADR-0004: PostgreSQL database](0004-use-postgresql-for-database.md)

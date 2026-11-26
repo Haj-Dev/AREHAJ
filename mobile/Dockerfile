@@ -1,4 +1,4 @@
-FROM ghcr.io/cirruslabs/flutter:stable
+FROM plugfox/flutter:3.47.9-android
 # android-arm64 = real phones. Use android-x64 for an x86 emulator.
 ARG TARGET=android-arm64
 WORKDIR /app
@@ -16,10 +16,9 @@ RUN printf '\norg.gradle.parallel=true\norg.gradle.caching=true\norg.gradle.work
 RUN flutter build apk --release --target-platform ${TARGET}
 
 # Everything below reruns on code changes and is the fast part.
-ARG API_URL=http://10.0.2.2:8080
 COPY pubspec.yaml ./
 COPY lib ./lib
 RUN flutter pub get && \
-    flutter build apk --release --target-platform ${TARGET} --dart-define=API_URL=${API_URL}
+    flutter build apk --release --target-platform ${TARGET}
 
 CMD ["cp", "/app/build/app/outputs/flutter-apk/app-release.apk", "/out/"]

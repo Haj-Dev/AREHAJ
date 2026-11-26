@@ -1,0 +1,22 @@
+when:
+  - event: pull_request
+    branch: dev
+    path:
+      include:
+        - mobile/**
+        - .woodpecker/mobile.yaml
+
+steps:
+  - name: analyze
+    image: plugfox/flutter:3.47.9
+    commands:
+      - cd mobile
+      - flutter pub get --enforce-lockfile
+      - flutter analyze --no-pub
+
+  - name: test
+    image: plugfox/flutter:3.47.9
+    commands:
+      - cd mobile
+      - flutter pub get --enforce-lockfile
+      - flutter test --no-pub

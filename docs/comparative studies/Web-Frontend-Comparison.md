@@ -10,9 +10,9 @@ A browser application may still be described as a “web app”; in this documen
 
 ## Project Technology Decision
 
-**Selected stack**: Rust backend, ReactJS browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
+**Selected stack**: Rust backend, React with TypeScript browser frontend, Flutter (Dart) Android application, and PostgreSQL database.
 
-**ReactJS is the selected technology for the AREHAJ web frontend.** It runs in the browser and consumes the Rust API; it does not connect directly to PostgreSQL. React Native and Flutter Web are not the selected browser stack. Next.js, Vite, JavaScript versus TypeScript, and the rendering/hosting model remain separate decisions. The comparisons below remain background, not an open framework selection or evidence of implementation.
+**React with TypeScript is the selected technology for the AREHAJ web frontend.** It runs in the browser and consumes the Rust API; it does not connect directly to PostgreSQL. React Native and Flutter Web are not the selected browser stack. The current implementation uses Vite and TypeScript; Next.js is not adopted, and the rendering/hosting model remains a separate decision. The comparisons below remain background, not an open framework selection or evidence of implementation.
 
 ## Executive Summary
 
@@ -28,7 +28,7 @@ A browser application may still be described as a “web app”; in this documen
 **Key Findings**:
 
 - For a conventional web product, start with **DOM-based frameworks**: React, Vue, Angular, or Svelte.
-- **ReactJS is selected for this project**. Next.js is evaluated as a React framework option, not an adopted dependency; Vue/Nuxt remains comparison background.
+- **React with TypeScript is selected for this project**. Next.js is evaluated as a React framework option, not an adopted dependency; Vue/Nuxt remains comparison background.
 - **Angular** is especially relevant when a team values standardized architecture and integrated tooling.
 - **SvelteKit** is worth evaluating for a team that prefers concise components and can validate its required integrations.
 - **Flutter Web** is conditional: useful for existing Flutter assets or app-like custom interfaces, but not the default for a conventional website.
@@ -282,7 +282,7 @@ Assess the specific components the product needs: accessible forms, tables, rich
 
 ## Recommendation Matrix
 
-The matrix and scenarios below describe general suitability. **AREHAJ uses ReactJS for the web version**; they do not reopen that decision or imply adoption of Next.js.
+The matrix and scenarios below describe general suitability. **AREHAJ uses React with TypeScript for the web version**; they do not reopen that decision or imply adoption of Next.js.
 
 | Requirement                                   | Candidates to prioritize                        | Qualification                                                       |
 | --------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------------- |
@@ -365,13 +365,13 @@ Run the same required journeys for each shortlisted stack and record delivery ef
 
 ### Best Starting Point for the Browser Version
 
-**Project decision: ReactJS for the browser frontend.** It communicates with the Rust backend API, which owns authorization, business rules, and access to PostgreSQL. Flutter is used for the separate Android application, not the browser version.
+**Project decision: React with TypeScript for the browser frontend.** It communicates with the Rust backend API, which owns authorization, business rules, and access to PostgreSQL. Flutter is used for the separate Android application, not the browser version.
 
 Choose React tooling and rendering separately:
 
 - **Authenticated interface backed by the Rust API**: A client-rendered React build, for example using Vite, may be sufficient.
 - **Public content requiring server rendering or prerendering**: Evaluate compatible React tooling, such as Next.js, only where requirements justify it. Any additional server layer must have an explicit role alongside the Rust backend.
-- **Language and hosting**: JavaScript versus TypeScript, routing, build tooling, and hosting remain implementation decisions.
+- **Language and hosting**: TypeScript and Vite are already in use; routing, further build tooling, and hosting remain implementation decisions.
 
 Vue, Angular, Svelte, Flutter Web, and Leptos remain comparison background rather than selected project frontends.
 
@@ -390,7 +390,7 @@ graph TD
     I --> J[Monitor real-user behavior and iterate]
 ```
 
-This is an implementation and validation sequence for the selected ReactJS frontend, not a delivery estimate.
+This is an implementation and validation sequence for the selected React with TypeScript frontend, not a delivery estimate.
 
 ---
 
@@ -398,7 +398,7 @@ This is an implementation and validation sequence for the selected ReactJS front
 
 The browser version should be evaluated as a web product, not as an Android application wrapped around web content. Its selection criteria are browser behavior, accessibility, initial delivery, interaction quality, search visibility where required, and long-term maintainability.
 
-**AREHAJ uses ReactJS for the browser frontend**, with a Rust backend and PostgreSQL database. Flutter serves the separate Android application. Validate critical React journeys in production-equivalent browser builds; the remaining decisions concern tooling, rendering, hosting, and integration rather than selection of another frontend framework.
+**AREHAJ uses React with TypeScript for the browser frontend**, with a Rust backend and PostgreSQL database. Flutter serves the separate Android application. Validate critical React journeys in production-equivalent browser builds; the remaining decisions concern tooling, rendering, hosting, and integration rather than selection of another frontend framework.
 
 ---
 

@@ -8,7 +8,7 @@ async fn hello(Query(q): Query<HashMap<String, String>>) -> Json<Value> {
         .map(|n| n.trim())
         .filter(|n| !n.is_empty())
         .unwrap_or("world");
-    Json(json!({ "message": format!("Hello, {name}, from Rust 🦀") }))
+    Json(json!({ "message": format!("Hello {name}, from our Rust backend 🦀") }))
 }
 
 #[tokio::main]

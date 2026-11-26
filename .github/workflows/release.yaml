@@ -1,0 +1,111 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # create the GitHub release
+  packages: write # push images to ghcr.io
+
+jobs:
+  # Generate the release date once so every deliverable shares the same tag.
+  metadata:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+      repo: ${{ steps.meta.outputs.repo }}
+    steps:
+      - id: meta
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date -u +%Y%m%d)
+          REPO="${GITHUB_REPOSITORY,,}"
+
+          TAG="$DATE"
+          SUFFIX=0
+
+          while gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; do
+            SUFFIX=$((SUFFIX + 1))
+            TAG="$DATE-$SUFFIX"
+          done
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "repo=$REPO" >> "$GITHUB_OUTPUT"
+
+  # Build and publish the backend image.
+  publish-backend:
+    needs: metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: backend
+          file: backend/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ needs.metadata.outputs.repo }}/backend:${{ needs.metadata.outputs.tag }}
+            ghcr.io/${{ needs.metadata.outputs.repo }}/backend:${{ github.sha }}
+
+  # Build and publish the web image.
+  publish-web:
+    needs: metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: web
+          file: web/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ needs.metadata.outputs.repo }}/web:${{ needs.metadata.outputs.tag }}
+            ghcr.io/${{ needs.metadata.outputs.repo }}/web:${{ github.sha }}
+
+  # Build the Android APK with the same Dockerfile used by `docker compose`.
+  # The Dockerfile generates the Android project and patches the manifest.
+  build-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build APK
+        run: |
+          mkdir -p out
+          docker build --build-arg TARGET=android-arm64 -t arehaj-mobile mobile
+          docker run --rm -v "$PWD/out:/out" arehaj-mobile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: out/app-release.apk
+
+  # Publish the APK as a GitHub Release asset.
+  publish-release:
+    needs: [metadata, build-mobile]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: app-release-apk
+          path: dist
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ needs.metadata.outputs.tag }}" \
+            "dist/app-release.apk#Android APK" \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" \
+            --title "Release ${{ needs.metadata.outputs.tag }}" \
+            --generate-notes

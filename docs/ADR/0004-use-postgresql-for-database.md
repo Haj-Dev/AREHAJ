@@ -6,7 +6,7 @@
 
 ## Context
 
-AREHAJ's ReactJS browser frontend and Flutter Android application need shared authoritative storage through the Rust backend API.
+AREHAJ's React with TypeScript browser frontend and Flutter Android application need shared authoritative storage through the Rust backend API.
 
 The database comparison considers PostgreSQL, MySQL/InnoDB, SQLite, and MongoDB. The project has explicitly selected PostgreSQL. The schema, workload, hosting environment, availability objectives, and recovery requirements still need definition; this decision does not claim that they have been validated.
 
@@ -74,5 +74,5 @@ Before production:
 
 - [Database comparative study](../comparative%20studies/Database-Comparison.md)
 - [ADR-0001: Rust backend](0001-use-rust-for-backend.md)
-- [ADR-0002: ReactJS web frontend](0002-use-reactjs-for-web-frontend.md)
+- [ADR-0002: React with TypeScript web frontend](0002-use-react-with-typescript-for-web-frontend.md)
 - [ADR-0003: Flutter Android application](0003-use-flutter-for-android.md)
